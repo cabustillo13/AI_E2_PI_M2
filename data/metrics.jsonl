@@ -1,0 +1,17 @@
+{"event": "rag_query", "data": {"question": "¿Cuántos días de vacaciones me corresponden si llevo 1 año en Nubbix?", "chunks_count": 3, "latency": 1.467, "cost": 0.000144}}
+{"event": "rag_query", "data": {"question": "¿Cuál es el monto del estipendio mensual para Home Office?", "chunks_count": 3, "latency": 0.888, "cost": 0.000117}}
+{"event": "rag_query", "data": {"question": "¿Puedo pedir reintegro de un almuerzo de $30.000 ARS?", "chunks_count": 3, "latency": 0.693, "cost": 0.000108}}
+{"event": "rag_query", "data": {"question": "¿A quién debo avisar si pierdo mi MacBook de la empresa?", "chunks_count": 3, "latency": 1.117, "cost": 0.000125}}
+{"event": "rag_query", "data": {"question": "¿Cuál es el presupuesto anual para cursos y certificaciones?", "chunks_count": 3, "latency": 1.192, "cost": 0.000108}}
+{"event": "rag_query", "data": {"question": "¿Cuál es la política de la empresa respecto al cuidado de mascotas en la oficina?", "chunks_count": 3, "latency": 0.735, "cost": 0.000108}}
+{"event": "rag_query", "data": {"question": "¿Cuándo se realiza el pago de sueldos cada mes?", "chunks_count": 3, "latency": 0.98, "cost": 0.000125}}
+{"event": "rag_query", "data": {"question": "¿Quién ganó el último mundial de fútbol?", "chunks_count": 3, "latency": 0.681, "cost": 9.8e-05}}
+{"event": "rag_query", "data": {"question": "¿Cuántos días de vacaciones me corresponden si llevo 1 año en Nubbix?", "chunks_count": 3, "latency": 1.288, "cost": 0.000131}}
+{"event": "rag_query", "data": {"question": "¿Cuál es el monto del estipendio mensual para Home Office?", "chunks_count": 3, "latency": 0.935, "cost": 0.000123}}
+{"event": "rag_query", "data": {"question": "¿Puedo pedir reintegro de un almuerzo de $30.000 ARS?", "chunks_count": 3, "latency": 0.671, "cost": 0.00011}}
+{"event": "rag_query", "data": {"question": "¿A quién debo avisar si pierdo mi MacBook de la empresa?", "chunks_count": 3, "latency": 1.257, "cost": 0.000123}}
+{"event": "rag_query", "data": {"question": "¿Cuál es el presupuesto anual para cursos y certificaciones?", "chunks_count": 3, "latency": 0.766, "cost": 0.000104}}
+{"event": "rag_query", "data": {"question": "¿Cuál es la política de la empresa respecto al cuidado de mascotas en la oficina?", "chunks_count": 3, "latency": 0.782, "cost": 0.000106}}
+{"event": "rag_query", "data": {"question": "¿Cuándo se realiza el pago de sueldos cada mes?", "chunks_count": 3, "latency": 0.968, "cost": 0.00012}}
+{"event": "rag_query", "data": {"question": "¿Quién ganó el último mundial de fútbol?", "chunks_count": 3, "latency": 0.837, "cost": 9.2e-05}}
+{"event": "rag_query", "data": {"question": "¿A quién debo avisar si pierdo mi MacBook de la empresa?", "chunks_count": 3, "latency": 1.784, "cost": 0.000125}}
