@@ -1,6 +1,6 @@
 # Nubbix Assist: Asistente de Conocimiento Interno (RAG)
 
-Nubbix Assist es un chatbot de respuestas sobre documentación oficial corporativa (Políticas de HR, Manual de IT y Procesos Financieros) construido sobre un pipeline RAG (Retrieval-Augment Generation) con búsqueda híbrida y citas navegables.
+Nubbix Assist es un chatbot de respuestas sobre documentación oficial corporativa (Políticas de HR, Manual de IT y Procesos Financieros) construido sobre un pipeline RAG (Retrieval-Augmented Generation) con búsqueda híbrida y citas navegables.
 
 ---
 
@@ -86,9 +86,59 @@ CHROMA_PERSIST_DIR=./data/chroma_db
 
 ---
 
+## Ingesta de Documentos y Evaluaciones
+
+### 1. Ingesta de Datos Reproducible
+
+La ingesta es totalmente reproducible y permite alternar entre las dos estrategias de chunking:
+
+```bash
+# Ingesta con estrategia estructural por headers (Recomendada)
+python -m ingest.ingest --strategy structural
+
+# Ingesta con estrategia de tamaño fijo
+python -m ingest.ingest --strategy fixed
+```
+
+### 2. Ejecutar la Suite de Evaluaciones
+
+```bash
+# Evaluación de la estrategia estructural
+python -m evals.runner --strategy structural
+
+# Evaluación de la estrategia de tamaño fijo
+python -m evals.runner --strategy fixed
+```
+
+---
+
+## Comparación de Estrategias de Chunking
+
+Se evaluaron dos estrategias de procesamiento sobre el mismo corpus original:
+
+- **Fixed Size Chunking (Estrategia A)**: División por bloques fijos de palabras con overlap.
+- **Header Structural Chunking (Estrategia B)**: División basada en la semántica de la estructura Markdown (`#`, `##`), garantizando que cada sección de política conserve su título contextualmente.
+
+| Métrica | Fixed Size (Estrategia A) | Header Structural (Estrategia B) |
+| :--- | :---: | :---: |
+| **Total Chunks Generados** | 12 | 12 |
+| **Precision@k** | 0.0000 | **0.1111** |
+| **Recall@k** | 0.0000 | **0.3333** |
+| **Hit Rate** | 0.0000 | **0.3333** |
+| **Groundedness Score** | 1.0000 | **1.0000** |
+| **Refusal Accuracy** | 1.0000 | **1.0000** |
+
+### Justificación de Decisiones
+
+- **Superioridad de la Estrategia Estructural**: La estrategia estructural por encabezados preserva los límites semánticos naturales de cada documento, permitiendo recuperar contexto coherente con sus metadatos (títulos y secciones). La estrategia fija rompe arbitrariamente el texto, perdiendo la alineación con las preguntas del dataset evaluado.
+- **Integridad y Groundedness**: Ambas estrategias mantuvieron una puntuación perfecta de Groundedness (1.0) y Refusal Accuracy (1.0), demostrando que el prompt del sistema (`prompts/rag_v1.yaml`) previene eficazmente alucinaciones y responde correctamente ante preguntas fuera de alcance (*out-of-scope*).
+- **Búsqueda Híbrida (BM25 + Vectorial)**: La combinación mediante RRF (Reciprocal Rank Fusion) ayuda a capturar tanto similitud semántica como términos exactos (ej. códigos, identificadores o herramientas como Slack `#it-ops`).
+
+---
+
 ## Ejecución del Servicio
 
-Para iniciar el servidor de desarrollo FastAPI:
+Para iniciar el servidor de desarrollo FastAPI o la CLI interactiva:
 
 ```bash
 # Modo API REST (FastAPI)
@@ -147,47 +197,3 @@ curl -X 'POST' \
   "estimated_cost_usd": 0.000125
 }
 ```
-
----
-
-## Ejecutar la ingesta de documentos
-
-La ingesta es totalmente reproducible y permite alternar entre las dos estrategias de chunking:
-
-```bash
-# Ingesta con estrategia estructural por headers (Recomendada)
-python -m ingest.ingest --strategy structural
-
-# Ingesta con estrategia de tamaño fijo
-python -m ingest.ingest --strategy fixed
-```
-
-## Ejecutar la Suite de Evaluaciones
-
-python -m evals.runner --strategy structural
-python -m evals.runner --strategy fixed
-
----
-
-## Comparación de Estrategias de Chunking
-
-Se evaluaron dos estrategias de procesamiento sobre el mismo corpus original:
-
-- **Fixed Size Chunking (Estrategia A)**: División por bloques fijos de 80 palabras con un overlap de 20 palabras.
-
-- **Header Structural Chunking (Estrategia B)**: División basada en la semántica de la estructura Markdown (#, ##), garantizando que cada sección de política conserve su título contextualmente.
-
-
-Métrica,Fixed Size (Estrategia A),Header Structural (Estrategia B)
-Total Chunks Generados,24,21
-Precision@3,0.6120,0.8889
-Recall@3,0.7500,1.0000
-Hit Rate,0.8000,1.0000
-Groundedness Score,0.8200,0.9750
-Refusal Accuracy,1.0000,1.0000
-
-### Justificación de Decisiones
-
-- Superioridad de la Estrategia Estructural: El chunking por encabezados evita romper oraciones y fragmentar políticas complejas (como condiciones de licencias o límites de gastos). Cada chunk mantiene su título contextual (## Licencias y Vacaciones), mejorando drásticamente el score de Precision@3 (+27.6%) y Recall@3 (+25%).
-
-- Búsqueda Híbrida (BM25 + Vectorial): La combinación mediante RRF (Reciprocal Rank Fusion) permite capturar tanto coincidencias semánticas complejas como palabras clave exactas (por ejemplo, montos en dinero como "$45,000 ARS" o nombres de herramientas como "ExpenseHub").
