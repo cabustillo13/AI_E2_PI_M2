@@ -1,0 +1,20 @@
+[
+  {
+    "prompt_version": "triage_v1",
+    "cases_tested": 36,
+    "accuracy_percentage": 100.0,
+    "avg_quality_score": 3.83
+  },
+  {
+    "prompt_version": "triage_v2",
+    "cases_tested": 36,
+    "accuracy_percentage": 100.0,
+    "avg_quality_score": 2.86
+  },
+  {
+    "prompt_version": "triage_v3",
+    "cases_tested": 36,
+    "accuracy_percentage": 97.22,
+    "avg_quality_score": 3.17
+  }
+]

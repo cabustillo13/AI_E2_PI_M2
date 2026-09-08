@@ -1,0 +1,36 @@
+{"id":"billing_001","query":"Me cobraron dos veces la suscripción","expected_category":"billing"}
+{"id":"billing_002","query":"¿Dónde puedo ver mi factura?","expected_category":"billing"}
+{"id":"billing_003","query":"Quiero cancelar el cobro de este mes","expected_category":"billing"}
+{"id":"technical_001","query":"La aplicación muestra un error al cargar archivos","expected_category":"technical"}
+{"id":"technical_002","query":"El sistema está muy lento desde esta mañana","expected_category":"technical"}
+{"id":"technical_003","query":"La integración con mi sistema dejó de funcionar","expected_category":"technical"}
+{"id":"account_001","query":"No puedo iniciar sesión","expected_category":"account"}
+{"id":"account_002","query":"Olvidé mi contraseña","expected_category":"account"}
+{"id":"account_003","query":"Necesito cambiar los permisos de un usuario","expected_category":"account"}
+{"id":"other_001","query":"¿Tienen soporte para empresas de otros países?","expected_category":"other"}
+{"id":"other_002","query":"Quiero enviar una sugerencia de producto","expected_category":"other"}
+{"id":"other_003","query":"¿Cuál es el horario de atención?","expected_category":"other"}
+{"id":"billing_004","query":"El importe de mi plan cambió sin aviso","expected_category":"billing"}
+{"id":"billing_005","query":"¿Aceptan tarjetas emitidas fuera de Argentina?","expected_category":"billing"}
+{"id":"billing_006","query":"Necesito descargar el comprobante del pago","expected_category":"billing"}
+{"id":"billing_007","query":"Solicito el reintegro de una factura incorrecta","expected_category":"billing"}
+{"id":"billing_008","query":"Mi tarjeta fue rechazada al renovar la suscripción","expected_category":"billing"}
+{"id":"billing_009","query":"¿Cómo cambio de plan y cuándo se aplica el nuevo precio?","expected_category":"billing"}
+{"id":"technical_004","query":"No se guardan los cambios en un formulario","expected_category":"technical"}
+{"id":"technical_005","query":"El correo de integración devuelve un error 500","expected_category":"technical"}
+{"id":"technical_006","query":"La pantalla queda en blanco después de actualizar","expected_category":"technical"}
+{"id":"technical_007","query":"Los reportes tardan demasiado en generarse","expected_category":"technical"}
+{"id":"technical_008","query":"¿Por qué no se sincronizan los datos con mi ERP?","expected_category":"technical"}
+{"id":"technical_009","query":"La aplicación funciona en el navegador pero falla en el celular","expected_category":"technical"}
+{"id":"account_004","query":"Quiero actualizar el correo asociado a mi cuenta","expected_category":"account"}
+{"id":"account_005","query":"El código de verificación nunca llega","expected_category":"account"}
+{"id":"account_006","query":"¿Cómo agrego un administrador a la organización?","expected_category":"account"}
+{"id":"account_007","query":"Mi usuario quedó bloqueado después de varios intentos","expected_category":"account"}
+{"id":"account_008","query":"Necesito eliminar a una persona del equipo","expected_category":"account"}
+{"id":"account_009","query":"¿Puedo tener dos usuarios con el mismo correo?","expected_category":"account"}
+{"id":"other_004","query":"¿Ofrecen capacitación para nuevos equipos?","expected_category":"other"}
+{"id":"other_005","query":"Quisiera conocer las funcionalidades del plan empresarial","expected_category":"other"}
+{"id":"other_006","query":"¿Dónde puedo consultar la documentación pública?","expected_category":"other"}
+{"id":"other_007","query":"Necesito hablar con una persona del área comercial","expected_category":"other"}
+{"id":"other_008","query":"¿En qué países está disponible el servicio?","expected_category":"other"}
+{"id":"other_009","query":"Quiero reportar una sugerencia sobre la experiencia de usuario","expected_category":"other"}
