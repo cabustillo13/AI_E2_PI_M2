@@ -15,3 +15,5 @@
 {"event": "rag_query", "data": {"question": "¿Cuándo se realiza el pago de sueldos cada mes?", "chunks_count": 3, "latency": 0.968, "cost": 0.00012}}
 {"event": "rag_query", "data": {"question": "¿Quién ganó el último mundial de fútbol?", "chunks_count": 3, "latency": 0.837, "cost": 9.2e-05}}
 {"event": "rag_query", "data": {"question": "¿A quién debo avisar si pierdo mi MacBook de la empresa?", "chunks_count": 3, "latency": 1.784, "cost": 0.000125}}
+{"event": "rag_query", "data": {"question": "¿Cuántos días de vacaciones me corresponden si llevo 1 año en Nubbix?", "chunks_count": 3, "latency": 1.649, "cost": 0.000144}}
+{"event": "rag_query", "data": {"question": "¿Cuántos días de vacaciones me corresponden si llevo 1 año en Nubbix?", "chunks_count": 3, "latency": 1.445, "cost": 0.000144}}

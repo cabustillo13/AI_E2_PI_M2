@@ -1,7 +1,7 @@
 import argparse
 import uvicorn
+from contextlib import asynccontextmanager
 from fastapi import FastAPI, HTTPException
-
 from src.models import RAGQueryRequest, RAGQueryResponse
 from src.service import RAGService
 
@@ -9,20 +9,20 @@ from src.service import RAGService
 from dotenv import load_dotenv
 load_dotenv()
 
+rag_service = None
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    global rag_service
+    rag_service = RAGService(collection_name="nubbix_docs_structural")
+    yield
+
 app = FastAPI(
     title="Nubbix Assist - RAG API",
     description="Asistente de conocimiento interno con Retrieval Híbrido y Citas de Fuentes",
-    version="2.0.0"
+    version="2.0.0",
+    lifespan=lifespan
 )
-
-rag_service = None
-
-
-@app.on_event("startup")
-def startup_event():
-    global rag_service
-    rag_service = RAGService(collection_name="nubbix_docs_structural")
-
 
 @app.post("/api/v1/query", response_model=RAGQueryResponse)
 def query_endpoint(request: RAGQueryRequest):
@@ -30,8 +30,7 @@ def query_endpoint(request: RAGQueryRequest):
         response = rag_service.answer_question(request.question, top_k=request.top_k)
         return response
     except Exception as e:
-        raise HTTPException(status_status=500, detail=str(e))
-
+        raise HTTPException(status_code=500, detail=str(e))
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Ejecutar el servidor Nubbix Assist RAG.")
