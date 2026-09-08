@@ -1,114 +1,108 @@
 import json
 import yaml
-from pathlib import Path
-from pydantic import BaseModel, Field
+import argparse
+from typing import List, Dict, Any
 
-from src.llm_client import LLMProvider
-from src.models import TicketResponse
-
+from src.service import RAGService
+from src.llm_client import LLMClient
 
 # Cargar variables de entorno desde .env
 from dotenv import load_dotenv
 load_dotenv()
 
-# Definir Paths
-PROJECT_ROOT = Path(__file__).resolve().parent.parent
-PROMPTS_DIR = PROJECT_ROOT / "prompts"
-EVALS_DIR = PROJECT_ROOT / "evals"
 
-# --- Modelo exclusivo para el LLM-as-Judge de Evals ---
-class EvalJudgeScore(BaseModel):
-    score: int = Field(..., ge=1, le=5, description="Puntuación del 1 al 5 de la respuesta generada.")
-    reasoning: str = Field(..., description="Breve justificación de la nota.")
+class RAGEvaluator:
+    def __init__(self, strategy: str = "structural"):
+        self.strategy = strategy
+        collection_name = f"nubbix_docs_{strategy}"
+        self.rag_service = RAGService(collection_name=collection_name)
+        self.llm_client = LLMClient()
+        self.judge_prompt = self._load_judge_prompt()
 
+    def _load_judge_prompt(self) -> str:
+        with open("prompts/judge_v1.yaml", "r", encoding="utf-8") as f:
+            data = yaml.safe_load(f)
+            return data.get("system_prompt", "")
 
-def load_prompt(version: str) -> str:
-    prompt_path = PROMPTS_DIR / f"{version}.yaml"
-    with open(prompt_path, "r", encoding="utf-8") as f:
-        data = yaml.safe_load(f)
-        return data.get("system")
-
-
-def evaluate_quality_with_judge(provider: LLMProvider, query: str, answer: str, actions: list) -> int:
-    """Usa un LLM para puntuar la calidad humana de la respuesta generada (LLM-as-Judge)."""
-    judge_prompt = "Eres un auditor de calidad. Evalúa del 1 al 5 qué tan útil y profesional es la respuesta y las acciones sugeridas para el siguiente ticket de soporte. Solo da el puntaje y una breve razón."
-    user_msg = f"TICKET: {query}\nRESPUESTA DEL BOT: {answer}\nACCIONES SUGERIDAS: {actions}"
-    
-    try:
-        data, _ = provider.generate_structured(judge_prompt, user_msg, EvalJudgeScore)
-        return data["score"]
-    except Exception:
-        return 0
-
-
-def main():
-    print("Iniciando suite de Evals (TicketFlow)...")
-    
-    provider = LLMProvider(provider_name="openai") # Por defecto usará OpenAI (o el que hayas configurado)
-    
-    # Cargar dataset
-    evals_dataset_path = EVALS_DIR / "dataset.jsonl" 
-    with open(evals_dataset_path, "r", encoding="utf-8") as f:
-        dataset = [json.loads(line) for line in f if line.strip()]
-    
-    prompts_to_test = ["triage_v1", "triage_v2", "triage_v3"]
-    final_report = []
-
-    for version in prompts_to_test:
-        print(f"\n--- Evaluando {version} ---")
+    def evaluate_groundedness(self, question: str, answer: str, chunks: List[str]) -> float:
+        context_text = "\n".join(chunks)
+        user_p = f"CONTEXTO PROVISTO:\n{context_text}\n\nPREGUNTA: {question}\n\nRESPUESTA EVALUADA:\n{answer}"
+        
         try:
-            system_prompt = load_prompt(version)
-        except FileNotFoundError:
-            print(f"Archivo prompts/{version}.yaml no encontrado. Saltando...")
-            continue
+            res = self.llm_client.get_completion(self.judge_prompt, user_p)
+            cleaned = res["content"].strip().replace("```json", "").replace("```", "")
+            data = json.loads(cleaned)
+            return float(data.get("score", 0.0))
+        except Exception:
+            return 0.5
 
-        correct_categories = 0
-        quality_scores = []
-        
-        for case in dataset:
-            query = case["query"]
-            expected_category = case["expected_category"]
-            
-            try:
-                # 1. Generar respuesta enviando la query directamente como mensaje del usuario
-                response_data, _ = provider.generate_structured(system_prompt, query, TicketResponse)
-                predicted_category = response_data["category"]
-                
-                # 2. Métrica 1: Exact Match (Categoría)
-                is_correct = (predicted_category == expected_category)
-                if is_correct:
-                    correct_categories += 1
-                    
-                    # 3. Métrica 2: LLM-as-Judge (Solo si acertó la categoría)
-                    score = evaluate_quality_with_judge(
-                        provider, query, response_data["answer"], response_data["actions"]
-                    )
-                    if score > 0:
-                        quality_scores.append(score)
-                        
-            except Exception as e:
-                print(f"Error procesando caso '{query[:20]}...': {e}")
-        
-        # Calcular métricas finales de la versión
-        total_cases = len(dataset)
-        accuracy = (correct_categories / total_cases) * 100 if total_cases else 0
-        avg_quality = (sum(quality_scores) / len(quality_scores)) if quality_scores else 0
-        
-        print(f"Exact Match (Categoría): {accuracy:.1f}% ({correct_categories}/{total_cases})")
-        print(f"Score Promedio Calidad (Judge): {avg_quality:.1f}/5.0")
-        
-        final_report.append({
-            "prompt_version": version,
-            "cases_tested": total_cases,
-            "accuracy_percentage": round(accuracy, 2),
-            "avg_quality_score": round(avg_quality, 2)
-        })
+    def run_suite(self, dataset_path: str = "evals/dataset.jsonl", top_k: int = 3) -> Dict[str, Any]:
+        with open(dataset_path, "r", encoding="utf-8") as f:
+            test_cases = [json.loads(line) for line in f]
 
-    # Guardar resultados para análisis posterior
-    evals_results_path = EVALS_DIR / "results.json"
-    evals_results_path.write_text(json.dumps(final_report, indent=2), encoding="utf-8")
-    print("\nResultados guardados en evals/results.json")
+        total_cases = len(test_cases)
+        hits = 0
+        precisions = []
+        recalls = []
+        groundedness_scores = []
+        honest_refusals = 0
+        out_of_scope_cases = 0
+
+        print(f"\n--- Corriendo Suite de Evals [Estrategia: {self.strategy.upper()}] ---")
+
+        for tc in test_cases:
+            q = tc["question"]
+            expected_ids = set(tc["expected_chunk_ids"])
+            is_oos = tc.get("is_out_of_scope", False)
+
+            rag_res = self.rag_service.answer_question(q, top_k=top_k)
+            retrieved_ids = [c.chunk_id for c in rag_res.chunks_related]
+            retrieved_set = set(retrieved_ids)
+
+            # Métrica de Retrieval
+            if not is_oos:
+                intersection = expected_ids.intersection(retrieved_set)
+                precision = len(intersection) / len(retrieved_ids) if retrieved_ids else 0.0
+                recall = len(intersection) / len(expected_ids) if expected_ids else 0.0
+                hit = 1.0 if len(intersection) > 0 else 0.0
+
+                precisions.append(precision)
+                recalls.append(recall)
+                if hit: hits += 1
+            else:
+                out_of_scope_cases += 1
+                if "no se encuentra disponible" in rag_res.system_answer.lower():
+                    honest_refusals += 1
+
+            # Métrica de Generación (Groundedness)
+            chunk_contents = [c.content for c in rag_res.chunks_related]
+            g_score = self.evaluate_groundedness(q, rag_res.system_answer, chunk_contents)
+            groundedness_scores.append(g_score)
+
+        avg_precision = sum(precisions) / len(precisions) if precisions else 0.0
+        avg_recall = sum(recalls) / len(recalls) if recalls else 0.0
+        hit_rate = hits / (total_cases - out_of_scope_cases) if (total_cases - out_of_scope_cases) > 0 else 0.0
+        avg_groundedness = sum(groundedness_scores) / len(groundedness_scores) if groundedness_scores else 0.0
+        refusal_accuracy = honest_refusals / out_of_scope_cases if out_of_scope_cases > 0 else 1.0
+
+        metrics = {
+            "strategy": self.strategy,
+            "total_test_cases": total_cases,
+            "precision_at_k": round(avg_precision, 4),
+            "recall_at_k": round(avg_recall, 4),
+            "hit_rate": round(hit_rate, 4),
+            "avg_groundedness": round(avg_groundedness, 4),
+            "refusal_accuracy": round(refusal_accuracy, 4)
+        }
+
+        print(json.dumps(metrics, indent=2, ensure_ascii=False))
+        return metrics
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description="Runner de Evaluaciones RAG.")
+    parser.add_argument("--strategy", choices=["fixed", "structural"], default="structural")
+    args = parser.parse_args()
+    
+    evaluator = RAGEvaluator(strategy=args.strategy)
+    evaluator.run_suite()

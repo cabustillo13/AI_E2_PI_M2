@@ -1,82 +1,67 @@
+import os
 import yaml
-from pathlib import Path
-from src.models import TicketRequest, TicketResponse, JudgeResponse
-from src.llm_client import LLMProvider
-from src.metrics import log_metric
+from src.hybrid_retriever import HybridRetriever
+from src.llm_client import LLMClient
+from src.metrics import MetricsTracker
+from src.models import RAGQueryResponse, ChunkRelated
 
 
-def load_prompt(version: str) -> str:
-    """Carga el system prompt desde un archivo YAML."""
-    prompt_path = Path("prompts") / f"{version}.yaml"
-    with open(prompt_path, "r", encoding="utf-8") as f:
-        data = yaml.safe_load(f)
-        return data.get("system")
+class RAGService:
+    def __init__(self, collection_name: str = "nubbix_docs_structural"):
+        self.retriever = HybridRetriever(collection_name=collection_name)
+        self.llm_client = LLMClient()
+        self.metrics = MetricsTracker()
+        self.prompt_template = self._load_prompt()
 
+    def _load_prompt(self) -> str:
+        prompt_path = "prompts/rag_v1.yaml"
+        if os.path.exists(prompt_path):
+            with open(prompt_path, "r", encoding="utf-8") as f:
+                data = yaml.safe_load(f)
+                return data.get("system_prompt", "")
+        return "Responde utilizando únicamente el contexto provisto."
 
-def process_ticket(request: TicketRequest, provider: LLMProvider) -> TicketResponse:
+    def answer_question(self, question: str, top_k: int = 3) -> RAGQueryResponse:
+        # Step 1: Retrieval Híbrido
+        retrieved_chunks = self.retriever.hybrid_search(question, top_k=top_k)
 
-    # 1. GUARDRAIL: Moderación de entrada y detección de Prompt Injection
-    if provider.check_moderation(request.ticket):
-        return TicketResponse(
-            category="other",
-            confidence="high",
-            answer="La consulta contiene material bloqueado por políticas de seguridad.",
-            actions=["Revisar términos de servicio"]
-        )
-
-    # 2. CONTEXT ENGINEERING: Cargar el prompt de clasificación
-    system_prompt = load_prompt("triage_v3")
-
-    # 3. GENERACIÓN CON RETRY AUTOMÁTICO
-    max_retries = 2
-    ticket_response = None
-    metrics = {}
-
-    for attempt in range(1, max_retries + 1):
-        try:
-            response_data, metrics = provider.generate_structured(
-                system_prompt=system_prompt,
-                user_message=request.ticket,
-                response_model=TicketResponse
+        # Step 2: Formatear contexto para el LLM
+        context_str = ""
+        chunks_response = []
+        for idx, chunk in enumerate(retrieved_chunks):
+            context_str += f"\n--- ID CHUNK: {chunk['chunk_id']} ---\n{chunk['content']}\n"
+            chunks_response.append(
+                ChunkRelated(
+                    chunk_id=chunk["chunk_id"],
+                    source=chunk["metadata"].get("source", "unknown"),
+                    header=chunk["metadata"].get("header", None),
+                    content=chunk["content"],
+                    score=chunk["score"]
+                )
             )
 
-            ticket_response = TicketResponse(**response_data)
-            break
+        user_prompt = f"PREGUNTA DEL EMPLEADO:\n{question}\n\nDOCUMENTACIÓN OFICIAL DISPONIBLE:\n{context_str}"
 
-        except Exception as e:
-            print(f"Intento {attempt}/{max_retries} falló: {e}")
-
-            if attempt == max_retries:
-                raise RuntimeError(
-                    f"Error tras {max_retries} intentos de generación"
-                ) from e
-
-    # 4. EXTRA CREDIT (LLM-AS-JUDGE): Reevaluar si la confianza es baja
-    if ticket_response.confidence == "low":
-        judge_prompt = load_prompt("judge_v1")
-
-        judge_context = (
-            f"Ticket original: {request.ticket}\n"
-            f"Clasificación dudosa: {ticket_response.model_dump_json()}"
-        )
-        # Usamos un modelo más inteligente/grande para juzgar (ej. gpt-4o en lugar de mini)
-        judge_data, judge_metrics = provider.generate_structured(
-            system_prompt=judge_prompt,
-            user_message=judge_context,
-            response_model=JudgeResponse,
-            model="gpt-4o" if provider.provider_name == "openai" else "claude-3-5-sonnet-20240620"
+        # Step 3: Generación con LLM
+        llm_out = self.llm_client.get_completion(
+            system_prompt=self.prompt_template,
+            user_prompt=user_prompt
         )
 
-        # Aplicar corrección
-        ticket_response.category = judge_data.get("corrected_category", ticket_response.category)
+        response = RAGQueryResponse(
+            user_question=question,
+            system_answer=llm_out["content"],
+            chunks_related=chunks_response,
+            latency_seconds=round(llm_out["latency"], 3),
+            estimated_cost_usd=round(llm_out["cost"], 6)
+        )
 
-        # Consolidar métricas
-        metrics["cost_usd"] += judge_metrics["cost_usd"]
-        metrics["input_tokens"] += judge_metrics["input_tokens"]
-        metrics["output_tokens"] += judge_metrics["output_tokens"]
-        metrics["judge_invoked"] = True
+        # Métrica logging
+        self.metrics.log_event("rag_query", {
+            "question": question,
+            "chunks_count": len(chunks_response),
+            "latency": response.latency_seconds,
+            "cost": response.estimated_cost_usd
+        })
 
-    # 5. OBSERVABILIDAD: Registrar métricas
-    log_metric(request.ticket, ticket_response.category, metrics)
-
-    return ticket_response
+        return response

@@ -1,24 +1,31 @@
 from pydantic import BaseModel, Field
-from typing import List, Literal
+from typing import List, Optional
 
 
-class TicketRequest(BaseModel):
-    ticket: str = Field(..., description="El texto libre de la consulta del usuario entrante.")
+class ChunkRelated(BaseModel):
+    chunk_id: str
+    source: str
+    header: Optional[str] = None
+    content: str
+    score: float
 
 
-class TicketResponse(BaseModel):
-    category: Literal["billing", "technical", "account", "other"] = Field(
-        ..., description="Categoría principal del ticket."
-    )
-    confidence: Literal["high", "medium", "low"] = Field(
-        ..., description="Nivel de confianza de la clasificación."
-    )
-    answer: str = Field(..., description="Respuesta sugerida para el usuario.")
-    actions: List[str] = Field(
-        default_factory=list, description="Lista de acciones sugeridas para el agente humano."
-    )
+class RAGQueryRequest(BaseModel):
+    question: str
+    top_k: int = Field(default=3, ge=1, le=10)
+    enable_rerank: bool = False
 
 
-class JudgeResponse(BaseModel):
-    corrected_category: Literal["billing", "technical", "account", "other"] = Field(...)
-    feedback: str = Field(..., description="Justificación del juez sobre la categoría.")
+class RAGQueryResponse(BaseModel):
+    user_question: str
+    system_answer: str
+    chunks_related: List[ChunkRelated]
+    latency_seconds: float
+    estimated_cost_usd: float
+
+
+class GoldenTestCase(BaseModel):
+    id: str
+    question: str
+    expected_chunk_ids: List[str]
+    is_out_of_scope: bool = False

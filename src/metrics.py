@@ -1,19 +1,17 @@
 import json
-from datetime import datetime, timezone
-from pathlib import Path
+import os
+from typing import Dict, Any
 
 
-def log_metric(ticket: str, category: str, metrics: dict):
-    """Guarda las métricas operativas en formato JSONL."""
-    log_entry = {
-        "timestamp": datetime.now(timezone.utc).isoformat(),
-        "ticket_preview": ticket[:60] + "...",
-        "category": category,
-        **metrics
-    }
-    
-    # Asegura que el directorio exista
-    Path("data").mkdir(exist_ok=True)
-    
-    with open("data/metrics.jsonl", "a", encoding="utf-8") as f:
-        f.write(json.dumps(log_entry, ensure_ascii=False) + "\n")
+class MetricsTracker:
+    def __init__(self, log_file: str = "data/metrics.jsonl"):
+        self.log_file = log_file
+        os.makedirs(os.path.dirname(self.log_file), exist_ok=True)
+
+    def log_event(self, event_name: str, payload: Dict[str, Any]):
+        record = {
+            "event": event_name,
+            "data": payload
+        }
+        with open(self.log_file, "a", encoding="utf-8") as f:
+            f.write(json.dumps(record, ensure_ascii=False) + "\n")
