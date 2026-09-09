@@ -199,3 +199,9 @@ curl -X 'POST' \
   "estimated_cost_usd": 0.000125
 }
 ```
+
+---
+
+## (EXTRA) Guía de Migración a pgvector
+
+Dejo documentado el paso a paso para hacerlo en [docs/guia_migracion_pgvector.md](docs/guia_migracion_pgvector.md).
