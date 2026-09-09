@@ -1,8 +1,28 @@
 {"id": "q1", "question": "¿Cuántos días de vacaciones me corresponden si llevo 1 año en Nubbix?", "expected_chunk_ids": ["hr_policies.md_struct_0"], "is_out_of_scope": false}
 {"id": "q2", "question": "¿Cuál es el monto del estipendio mensual para Home Office?", "expected_chunk_ids": ["hr_policies.md_struct_1"], "is_out_of_scope": false}
 {"id": "q3", "question": "¿Puedo pedir reintegro de un almuerzo de $30.000 ARS?", "expected_chunk_ids": ["finance_processes.md_struct_0"], "is_out_of_scope": false}
-{"id": "q4", "question": "¿A quién debo avisar si pierdo mi MacBook de la empresa?", "expected_chunk_ids": ["it_manual.md_struct_1"], "is_out_of_scope": false}
-{"id": "q5", "question": "¿Cuál es el presupuesto anual para cursos y certificaciones?", "expected_chunk_ids": ["hr_policies.md_struct_2"], "is_out_of_scope": false}
+{"id": "q4", "question": "¿A quién debo avisar si pierdo mi MacBook de la empresa?", "expected_chunk_ids": ["it_manual.md_struct_2"], "is_out_of_scope": false}
+{"id": "q5", "question": "¿Cuál es el presupuesto anual para cursos y capacitaciones?", "expected_chunk_ids": ["hr_policies.md_struct_2"], "is_out_of_scope": false}
 {"id": "q6", "question": "¿Cuál es la política de la empresa respecto al cuidado de mascotas en la oficina?", "expected_chunk_ids": [], "is_out_of_scope": true}
 {"id": "q7", "question": "¿Cuándo se realiza el pago de sueldos cada mes?", "expected_chunk_ids": ["finance_processes.md_struct_2"], "is_out_of_scope": false}
 {"id": "q8", "question": "¿Quién ganó el último mundial de fútbol?", "expected_chunk_ids": [], "is_out_of_scope": true}
+{"id": "q9", "question": "¿Cuántos días corresponden por licencia de paternidad o maternidad?", "expected_chunk_ids": ["hr_policies.md_struct_0"], "is_out_of_scope": false}
+{"id": "q10", "question": "¿Cuántos días de estudio por examen rinde la empresa al año?", "expected_chunk_ids": ["hr_policies.md_struct_0"], "is_out_of_scope": false}
+{"id": "q11", "question": "¿Cuál es el límite máximo para gastos con la tarjeta corporativa?", "expected_chunk_ids": ["finance_processes.md_struct_0"], "is_out_of_scope": false}
+{"id": "q12", "question": "¿Cuánto tiempo tarda IT en otorgar permisos de lectura en la VPN o GitHub?", "expected_chunk_ids": ["it_manual.md_struct_1"], "is_out_of_scope": false}
+{"id": "q13", "question": "¿Cómo se deben justificar las ausencias por enfermedad o licencia médica?", "expected_chunk_ids": ["hr_policies.md_struct_0"], "is_out_of_scope": false}
+{"id": "q14", "question": "¿Cuál es la contraseña del Wi-Fi de la oficina para invitados?", "expected_chunk_ids": [], "is_out_of_scope": true}
+{"id": "q15", "question": "¿Cada cuántos días expiran las contraseñas de Google Workspace?", "expected_chunk_ids": ["it_manual.md_struct_3"], "is_out_of_scope": false}
+{"id": "q16", "question": "¿La empresa reembolsa la compra de sillas ergonómicas para el hogar?", "expected_chunk_ids": ["hr_policies.md_struct_1"], "is_out_of_scope": false}
+{"id": "q17", "question": "¿Nubbix ofrece membresía o descuento en cadenas de gimnasios?", "expected_chunk_ids": [], "is_out_of_scope": true}
+{"id": "q18", "question": "¿A qué hora abre y cierra el comedor de la sede central?", "expected_chunk_ids": [], "is_out_of_scope": true}
+{"id": "q19", "question": "¿Cómo es el procedimiento para solicitar un anticipo de sueldo?", "expected_chunk_ids": ["finance_processes.md_struct_2"], "is_out_of_scope": false}
+{"id": "q20", "question": "¿Quiénes deben aprobar una solicitud de acceso con permisos de Administrador?", "expected_chunk_ids": ["it_manual.md_struct_1"], "is_out_of_scope": false}
+{"id": "q21", "question": "¿Cuál es el canal oficial para enviar facturas y comprobantes de compra?", "expected_chunk_ids": ["finance_processes.md_struct_1"], "is_out_of_scope": false}
+{"id": "q22", "question": "En caso de robo de una laptop corporativa fuera de la casa, ¿qué plazo hay para hacer la denuncia policial?", "expected_chunk_ids": ["it_manual.md_struct_2"], "is_out_of_scope": false}
+{"id": "q23", "question": "¿El día de cumpleaños es libre o se debe trabajar media jornada?", "expected_chunk_ids": ["hr_policies.md_struct_0"], "is_out_of_scope": false}
+{"id": "q24", "question": "¿Es obligatorio usar la VPN de Nubbix al conectarse desde redes públicas?", "expected_chunk_ids": ["it_manual.md_struct_0"], "is_out_of_scope": false}
+{"id": "q25", "question": "¿Cuál es el procedimiento para la rendición de viáticos de un viaje de trabajo?", "expected_chunk_ids": ["finance_processes.md_struct_0"], "is_out_of_scope": false}
+{"id": "q26", "question": "¿Existe un código de vestimenta obligatorio para los días presenciales?", "expected_chunk_ids": [], "is_out_of_scope": true}
+{"id": "q27", "question": "¿Qué aplicación de autenticación de dos factores (MFA) se debe utilizar?", "expected_chunk_ids": ["it_manual.md_struct_3"], "is_out_of_scope": false}
+{"id": "q28", "question": "¿Qué modelo de computadora se le entrega a un nuevo empleado en IT?", "expected_chunk_ids": ["it_manual.md_struct_2"], "is_out_of_scope": false}

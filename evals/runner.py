@@ -59,12 +59,23 @@ class RAGEvaluator:
             retrieved_ids = [c.chunk_id for c in rag_res.chunks_related]
             retrieved_set = set(retrieved_ids)
 
+            # Extraer los nombres de los documentos fuente esperados (ej. "hr_policies.md")
+            expected_sources = set(e_id.split("_struct_")[0].split("_fixed_")[0] for e_id in expected_ids)
+
             # Métrica de Retrieval
             if not is_oos:
-                intersection = expected_ids.intersection(retrieved_set)
-                precision = len(intersection) / len(retrieved_ids) if retrieved_ids else 0.0
-                recall = len(intersection) / len(expected_ids) if expected_ids else 0.0
-                hit = 1.0 if len(intersection) > 0 else 0.0
+                if self.strategy == "structural":
+                    intersection = expected_ids.intersection(retrieved_set)
+                    precision = len(intersection) / len(retrieved_ids) if retrieved_ids else 0.0
+                    recall = len(intersection) / len(expected_ids) if expected_ids else 0.0
+                    hit = 1.0 if len(intersection) > 0 else 0.0
+                else:
+                    # Evaluación para estrategia Fixed basada en coincidencia de documento fuente
+                    retrieved_sources = set(c.source for c in rag_res.chunks_related)
+                    source_intersection = expected_sources.intersection(retrieved_sources)
+                    precision = len(source_intersection) / len(retrieved_sources) if retrieved_sources else 0.0
+                    recall = len(source_intersection) / len(expected_sources) if expected_sources else 0.0
+                    hit = 1.0 if len(source_intersection) > 0 else 0.0
 
                 precisions.append(precision)
                 recalls.append(recall)

@@ -10,7 +10,7 @@ class BaseChunker:
 
 class FixedSizeChunker(BaseChunker):
     """Estrategia A: Chunking por tamaño fijo de palabras con overlap."""
-    def __init__(self, chunk_size: int = 80, overlap: int = 20):
+    def __init__(self, chunk_size: int = 45, overlap: int = 10):
         self.chunk_size = chunk_size
         self.overlap = overlap
 
@@ -43,7 +43,10 @@ class FixedSizeChunker(BaseChunker):
 
 
 class HeaderStructuralChunker(BaseChunker):
-    """Estrategia B: Chunking estructural guiado por encabezados de Markdown."""
+    """Estrategia B: Chunking estructural guiado por encabezados de Markdown y párrafos."""
+    def __init__(self, max_words_per_chunk: int = 40):
+        self.max_words_per_chunk = max_words_per_chunk
+
     def chunk_text(self, text: str, source_doc: str) -> List[Dict[str, Any]]:
         sections = re.split(r'\n(?=#{1,3}\s+)', text)
         chunks = []
@@ -57,15 +60,28 @@ class HeaderStructuralChunker(BaseChunker):
             lines = section_str.split("\n")
             header = lines[0] if lines[0].startswith("#") else f"# {source_doc}"
             body = "\n".join(lines[1:]).strip() if lines[0].startswith("#") else section_str
-            
-            if len(body.split()) > 150:
-                paragraphs = body.split("\n\n")
-                for p_idx, para in enumerate(paragraphs):
-                    if not para.strip():
-                        continue
+
+            if not body:
+                chunks.append({
+                    "chunk_id": f"{source_doc}_struct_{chunk_idx}",
+                    "content": section_str,
+                    "metadata": {
+                        "source": source_doc,
+                        "header": header.replace("#", "").strip(),
+                        "strategy": "structural",
+                        "chunk_index": chunk_idx
+                    }
+                })
+                chunk_idx += 1
+                continue
+
+            paragraphs = [p.strip() for p in body.split("\n\n") if p.strip()]
+
+            if len(body.split()) > self.max_words_per_chunk and len(paragraphs) > 1:
+                for para in paragraphs:
                     chunks.append({
                         "chunk_id": f"{source_doc}_struct_{chunk_idx}",
-                        "content": f"{header}\n\n{para.strip()}",
+                        "content": f"{header}\n\n{para}",
                         "metadata": {
                             "source": source_doc,
                             "header": header.replace("#", "").strip(),
