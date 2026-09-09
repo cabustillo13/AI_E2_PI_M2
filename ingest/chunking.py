@@ -10,7 +10,7 @@ class BaseChunker:
 
 class FixedSizeChunker(BaseChunker):
     """Estrategia A: Chunking por tamaño fijo de palabras con overlap."""
-    def __init__(self, chunk_size: int = 45, overlap: int = 10):
+    def __init__(self, chunk_size: int = 35, overlap: int = 8):
         self.chunk_size = chunk_size
         self.overlap = overlap
 
@@ -43,10 +43,7 @@ class FixedSizeChunker(BaseChunker):
 
 
 class HeaderStructuralChunker(BaseChunker):
-    """Estrategia B: Chunking estructural guiado por encabezados de Markdown y párrafos."""
-    def __init__(self, max_words_per_chunk: int = 40):
-        self.max_words_per_chunk = max_words_per_chunk
-
+    """Estrategia B: Chunking estructural guiado por encabezados y bloques."""
     def chunk_text(self, text: str, source_doc: str) -> List[Dict[str, Any]]:
         sections = re.split(r'\n(?=#{1,3}\s+)', text)
         chunks = []
@@ -75,13 +72,13 @@ class HeaderStructuralChunker(BaseChunker):
                 chunk_idx += 1
                 continue
 
-            paragraphs = [p.strip() for p in body.split("\n\n") if p.strip()]
+            blocks = [p.strip() for p in re.split(r'\n\n|\n(?=\d+\.|\-|\*)', body) if p.strip()]
 
-            if len(body.split()) > self.max_words_per_chunk and len(paragraphs) > 1:
-                for para in paragraphs:
+            if len(blocks) > 1:
+                for block in blocks:
                     chunks.append({
                         "chunk_id": f"{source_doc}_struct_{chunk_idx}",
-                        "content": f"{header}\n\n{para}",
+                        "content": f"{header}\n\n{block}",
                         "metadata": {
                             "source": source_doc,
                             "header": header.replace("#", "").strip(),

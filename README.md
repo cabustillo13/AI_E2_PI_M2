@@ -114,25 +114,27 @@ python -m evals.runner --strategy fixed
 
 ## Comparación de Estrategias de Chunking
 
-Se evaluaron dos estrategias de procesamiento sobre el mismo corpus original:
+Se evaluaron dos estrategias de procesamiento sobre el mismo corpus original utilizando la suite de evaluaciones (`evals/runner.py`) sobre 28 casos de prueba:
 
-- **Fixed Size Chunking (Estrategia A)**: División por bloques fijos de palabras con overlap.
-- **Header Structural Chunking (Estrategia B)**: División basada en la semántica de la estructura Markdown (`#`, `##`), garantizando que cada sección de política conserve su título contextualmente.
+- **Fixed Size Chunking (Estrategia A)**: División por bloques fijos de 35 palabras con 8 palabras de overlap.
+- **Header Structural Chunking (Estrategia B)**: División basada en la estructura de encabezados Markdown (`#`, `##`) combinada con fragmentación por bloques de párrafos/listas.
 
 | Métrica | Fixed Size (Estrategia A) | Header Structural (Estrategia B) |
 | :--- | :---: | :---: |
-| **Total Chunks Generados** | 12 | 12 |
-| **Precision@k** | 0.0000 | **0.1111** |
-| **Recall@k** | 0.0000 | **0.3333** |
-| **Hit Rate** | 0.0000 | **0.3333** |
-| **Groundedness Score** | 1.0000 | **1.0000** |
-| **Refusal Accuracy** | 1.0000 | **1.0000** |
+| **Total Chunks Generados** | **24** | **23** |
+| **Precision@k** | **0.7273** | 0.0909 |
+| **Recall@k** | **1.0000** | 0.2727 |
+| **Hit Rate** | **1.0000** | 0.2727 |
+| **Groundedness Score** | **1.0000** | **1.0000** |
+| **Refusal Accuracy** | **1.0000** | **1.0000** |
 
-### Justificación de Decisiones
+### Justificación de Resultados y Decisiones
 
-- **Superioridad de la Estrategia Estructural**: La estrategia estructural por encabezados preserva los límites semánticos naturales de cada documento, permitiendo recuperar contexto coherente con sus metadatos (títulos y secciones). La estrategia fija rompe arbitrariamente el texto, perdiendo la alineación con las preguntas del dataset evaluado.
-- **Integridad y Groundedness**: Ambas estrategias mantuvieron una puntuación perfecta de Groundedness (1.0) y Refusal Accuracy (1.0), demostrando que el prompt del sistema (`prompts/rag_v1.yaml`) previene eficazmente alucinaciones y responde correctamente ante preguntas fuera de alcance (*out-of-scope*).
-- **Búsqueda Híbrida (BM25 + Vectorial)**: La combinación mediante RRF (Reciprocal Rank Fusion) ayuda a capturar tanto similitud semántica como términos exactos (ej. códigos, identificadores o herramientas como Slack `#it-ops`).
+- **Desempeño de Retrieval**: La Estrategia Fija (Estrategia A) alcanzó un **Hit Rate = 1.0000** y **Recall@k = 1.0000** al recuperar consistentemente el contexto correcto por documento fuente. En la Estrategia Estructural (Estrategia B), la subdivisión fina por listas y párrafos atomizó el contenido, distribuyendo la información en chunks más reducidos que requieren un `top_k` mayor o re-ranking para concentrar todas las citas exactas.
+
+- **Fidelidad y Rechazo Honesto**: Ambas estrategias obtuvieron un **Groundedness Score de 1.0000** y un **Refusal Accuracy de 1.0000**. Esto confirma que el prompt del sistema (`prompts/rag_v1.yaml`) restringe la generación estrictamente al contexto recuperado, evitando alucinaciones y rechazando con precisión las consultas fuera de alcance (*out-of-scope*).
+
+- **Búsqueda Híbrida (BM25 + Vectorial)**: La integración de búsqueda léxica y vectorial mediante Reciprocal Rank Fusion (RRF) garantizó la localización de términos exactos (como canales de Slack o correos de soporte) así como coincidencias semánticas.
 
 ---
 

@@ -1,75 +1,56 @@
-{"event": "rag_query", "data": {"question": "¿Cuántos días de vacaciones me corresponden si llevo 1 año en Nubbix?", "chunks_count": 3, "latency": 1.467, "cost": 0.000144}}
-{"event": "rag_query", "data": {"question": "¿Cuál es el monto del estipendio mensual para Home Office?", "chunks_count": 3, "latency": 0.888, "cost": 0.000117}}
-{"event": "rag_query", "data": {"question": "¿Puedo pedir reintegro de un almuerzo de $30.000 ARS?", "chunks_count": 3, "latency": 0.693, "cost": 0.000108}}
-{"event": "rag_query", "data": {"question": "¿A quién debo avisar si pierdo mi MacBook de la empresa?", "chunks_count": 3, "latency": 1.117, "cost": 0.000125}}
-{"event": "rag_query", "data": {"question": "¿Cuál es el presupuesto anual para cursos y certificaciones?", "chunks_count": 3, "latency": 1.192, "cost": 0.000108}}
-{"event": "rag_query", "data": {"question": "¿Cuál es la política de la empresa respecto al cuidado de mascotas en la oficina?", "chunks_count": 3, "latency": 0.735, "cost": 0.000108}}
-{"event": "rag_query", "data": {"question": "¿Cuándo se realiza el pago de sueldos cada mes?", "chunks_count": 3, "latency": 0.98, "cost": 0.000125}}
-{"event": "rag_query", "data": {"question": "¿Quién ganó el último mundial de fútbol?", "chunks_count": 3, "latency": 0.681, "cost": 9.8e-05}}
-{"event": "rag_query", "data": {"question": "¿Cuántos días de vacaciones me corresponden si llevo 1 año en Nubbix?", "chunks_count": 3, "latency": 1.288, "cost": 0.000131}}
-{"event": "rag_query", "data": {"question": "¿Cuál es el monto del estipendio mensual para Home Office?", "chunks_count": 3, "latency": 0.935, "cost": 0.000123}}
-{"event": "rag_query", "data": {"question": "¿Puedo pedir reintegro de un almuerzo de $30.000 ARS?", "chunks_count": 3, "latency": 0.671, "cost": 0.00011}}
-{"event": "rag_query", "data": {"question": "¿A quién debo avisar si pierdo mi MacBook de la empresa?", "chunks_count": 3, "latency": 1.257, "cost": 0.000123}}
-{"event": "rag_query", "data": {"question": "¿Cuál es el presupuesto anual para cursos y certificaciones?", "chunks_count": 3, "latency": 0.766, "cost": 0.000104}}
-{"event": "rag_query", "data": {"question": "¿Cuál es la política de la empresa respecto al cuidado de mascotas en la oficina?", "chunks_count": 3, "latency": 0.782, "cost": 0.000106}}
-{"event": "rag_query", "data": {"question": "¿Cuándo se realiza el pago de sueldos cada mes?", "chunks_count": 3, "latency": 0.968, "cost": 0.00012}}
-{"event": "rag_query", "data": {"question": "¿Quién ganó el último mundial de fútbol?", "chunks_count": 3, "latency": 0.837, "cost": 9.2e-05}}
-{"event": "rag_query", "data": {"question": "¿A quién debo avisar si pierdo mi MacBook de la empresa?", "chunks_count": 3, "latency": 1.784, "cost": 0.000125}}
-{"event": "rag_query", "data": {"question": "¿Cuántos días de vacaciones me corresponden si llevo 1 año en Nubbix?", "chunks_count": 3, "latency": 1.649, "cost": 0.000144}}
-{"event": "rag_query", "data": {"question": "¿Cuántos días de vacaciones me corresponden si llevo 1 año en Nubbix?", "chunks_count": 3, "latency": 1.445, "cost": 0.000144}}
-{"event": "rag_query", "data": {"question": "¿Cuántos días de vacaciones me corresponden si llevo 1 año en Nubbix?", "chunks_count": 3, "latency": 1.487, "cost": 0.000144}}
-{"event": "rag_query", "data": {"question": "¿Cuál es el monto del estipendio mensual para Home Office?", "chunks_count": 3, "latency": 0.802, "cost": 0.000117}}
-{"event": "rag_query", "data": {"question": "¿Puedo pedir reintegro de un almuerzo de $30.000 ARS?", "chunks_count": 3, "latency": 0.764, "cost": 0.000108}}
-{"event": "rag_query", "data": {"question": "¿A quién debo avisar si pierdo mi MacBook de la empresa?", "chunks_count": 3, "latency": 1.273, "cost": 0.000125}}
-{"event": "rag_query", "data": {"question": "¿Cuál es el presupuesto anual para cursos y capacitaciones?", "chunks_count": 3, "latency": 0.901, "cost": 0.00011}}
-{"event": "rag_query", "data": {"question": "¿Cuál es la política de la empresa respecto al cuidado de mascotas en la oficina?", "chunks_count": 3, "latency": 0.739, "cost": 0.000108}}
-{"event": "rag_query", "data": {"question": "¿Cuándo se realiza el pago de sueldos cada mes?", "chunks_count": 3, "latency": 0.977, "cost": 0.000125}}
-{"event": "rag_query", "data": {"question": "¿Quién ganó el último mundial de fútbol?", "chunks_count": 3, "latency": 0.914, "cost": 9.8e-05}}
-{"event": "rag_query", "data": {"question": "¿Cuántos días corresponden por licencia de paternidad o maternidad?", "chunks_count": 3, "latency": 0.964, "cost": 0.000114}}
-{"event": "rag_query", "data": {"question": "¿Cuántos días de estudio por examen rinde la empresa al año?", "chunks_count": 3, "latency": 0.975, "cost": 0.000109}}
-{"event": "rag_query", "data": {"question": "¿Cuál es el límite máximo para gastos con la tarjeta corporativa?", "chunks_count": 3, "latency": 0.795, "cost": 0.000115}}
-{"event": "rag_query", "data": {"question": "¿Cuánto tiempo tarda IT en otorgar permisos de lectura en la VPN o GitHub?", "chunks_count": 3, "latency": 0.947, "cost": 0.000106}}
-{"event": "rag_query", "data": {"question": "¿Cómo se deben justificar las ausencias por enfermedad o licencia médica?", "chunks_count": 3, "latency": 0.742, "cost": 0.00011}}
-{"event": "rag_query", "data": {"question": "¿Cuál es la contraseña del Wi-Fi de la oficina para invitados?", "chunks_count": 3, "latency": 0.799, "cost": 9.7e-05}}
-{"event": "rag_query", "data": {"question": "¿Cada cuántos días expiran las contraseñas de Google Workspace?", "chunks_count": 3, "latency": 0.8, "cost": 0.000112}}
-{"event": "rag_query", "data": {"question": "¿La empresa reembolsa la compra de sillas ergonómicas para el hogar?", "chunks_count": 3, "latency": 0.734, "cost": 9.5e-05}}
-{"event": "rag_query", "data": {"question": "¿Nubbix ofrece membresía o descuento en cadenas de gimnasios?", "chunks_count": 3, "latency": 0.712, "cost": 0.000111}}
-{"event": "rag_query", "data": {"question": "¿A qué hora abre y cierra el comedor de la sede central?", "chunks_count": 3, "latency": 0.678, "cost": 9.7e-05}}
-{"event": "rag_query", "data": {"question": "¿Cómo es el procedimiento para solicitar un anticipo de sueldo?", "chunks_count": 3, "latency": 0.64, "cost": 0.0001}}
-{"event": "rag_query", "data": {"question": "¿Quiénes deben aprobar una solicitud de acceso con permisos de Administrador?", "chunks_count": 3, "latency": 0.874, "cost": 0.000111}}
-{"event": "rag_query", "data": {"question": "¿Cuál es el canal oficial para enviar facturas y comprobantes de compra?", "chunks_count": 3, "latency": 0.782, "cost": 0.0001}}
-{"event": "rag_query", "data": {"question": "En caso de robo de una laptop corporativa fuera de la casa, ¿qué plazo hay para hacer la denuncia policial?", "chunks_count": 3, "latency": 0.98, "cost": 0.000113}}
-{"event": "rag_query", "data": {"question": "¿El día de cumpleaños es libre o se debe trabajar media jornada?", "chunks_count": 3, "latency": 0.728, "cost": 0.0001}}
-{"event": "rag_query", "data": {"question": "¿Es obligatorio usar la VPN de Nubbix al conectarse desde redes públicas?", "chunks_count": 3, "latency": 0.799, "cost": 0.000105}}
-{"event": "rag_query", "data": {"question": "¿Cuál es el procedimiento para la rendición de viáticos de un viaje de trabajo?", "chunks_count": 3, "latency": 1.483, "cost": 0.000164}}
-{"event": "rag_query", "data": {"question": "¿Existe un código de vestimenta obligatorio para los días presenciales?", "chunks_count": 3, "latency": 0.73, "cost": 0.000104}}
-{"event": "rag_query", "data": {"question": "¿Qué aplicación de autenticación de dos factores (MFA) se debe utilizar?", "chunks_count": 3, "latency": 0.829, "cost": 0.000108}}
-{"event": "rag_query", "data": {"question": "¿Qué modelo de computadora se le entrega a un nuevo empleado en IT?", "chunks_count": 3, "latency": 0.891, "cost": 0.000108}}
-{"event": "rag_query", "data": {"question": "¿Cuántos días de vacaciones me corresponden si llevo 1 año en Nubbix?", "chunks_count": 3, "latency": 1.532, "cost": 0.000103}}
-{"event": "rag_query", "data": {"question": "¿Cuál es el monto del estipendio mensual para Home Office?", "chunks_count": 3, "latency": 0.847, "cost": 0.000102}}
-{"event": "rag_query", "data": {"question": "¿Puedo pedir reintegro de un almuerzo de $30.000 ARS?", "chunks_count": 3, "latency": 0.674, "cost": 8.5e-05}}
-{"event": "rag_query", "data": {"question": "¿A quién debo avisar si pierdo mi MacBook de la empresa?", "chunks_count": 3, "latency": 0.916, "cost": 0.000108}}
-{"event": "rag_query", "data": {"question": "¿Cuál es el presupuesto anual para cursos y capacitaciones?", "chunks_count": 3, "latency": 0.862, "cost": 9.2e-05}}
-{"event": "rag_query", "data": {"question": "¿Cuál es la política de la empresa respecto al cuidado de mascotas en la oficina?", "chunks_count": 3, "latency": 0.839, "cost": 8.2e-05}}
-{"event": "rag_query", "data": {"question": "¿Cuándo se realiza el pago de sueldos cada mes?", "chunks_count": 3, "latency": 1.143, "cost": 0.000105}}
-{"event": "rag_query", "data": {"question": "¿Quién ganó el último mundial de fútbol?", "chunks_count": 3, "latency": 1.234, "cost": 8.1e-05}}
-{"event": "rag_query", "data": {"question": "¿Cuántos días corresponden por licencia de paternidad o maternidad?", "chunks_count": 3, "latency": 0.915, "cost": 9.2e-05}}
-{"event": "rag_query", "data": {"question": "¿Cuántos días de estudio por examen rinde la empresa al año?", "chunks_count": 3, "latency": 0.925, "cost": 9.4e-05}}
-{"event": "rag_query", "data": {"question": "¿Cuál es el límite máximo para gastos con la tarjeta corporativa?", "chunks_count": 3, "latency": 1.061, "cost": 9.6e-05}}
-{"event": "rag_query", "data": {"question": "¿Cuánto tiempo tarda IT en otorgar permisos de lectura en la VPN o GitHub?", "chunks_count": 3, "latency": 0.694, "cost": 9.1e-05}}
-{"event": "rag_query", "data": {"question": "¿Cómo se deben justificar las ausencias por enfermedad o licencia médica?", "chunks_count": 3, "latency": 0.659, "cost": 8.3e-05}}
-{"event": "rag_query", "data": {"question": "¿Cuál es la contraseña del Wi-Fi de la oficina para invitados?", "chunks_count": 3, "latency": 0.633, "cost": 8.1e-05}}
-{"event": "rag_query", "data": {"question": "¿Cada cuántos días expiran las contraseñas de Google Workspace?", "chunks_count": 3, "latency": 0.794, "cost": 0.0001}}
-{"event": "rag_query", "data": {"question": "¿La empresa reembolsa la compra de sillas ergonómicas para el hogar?", "chunks_count": 3, "latency": 0.67, "cost": 8.1e-05}}
-{"event": "rag_query", "data": {"question": "¿Nubbix ofrece membresía o descuento en cadenas de gimnasios?", "chunks_count": 3, "latency": 0.605, "cost": 8.3e-05}}
-{"event": "rag_query", "data": {"question": "¿A qué hora abre y cierra el comedor de la sede central?", "chunks_count": 3, "latency": 0.669, "cost": 8.2e-05}}
-{"event": "rag_query", "data": {"question": "¿Cómo es el procedimiento para solicitar un anticipo de sueldo?", "chunks_count": 3, "latency": 0.707, "cost": 7.9e-05}}
-{"event": "rag_query", "data": {"question": "¿Quiénes deben aprobar una solicitud de acceso con permisos de Administrador?", "chunks_count": 3, "latency": 0.736, "cost": 9e-05}}
-{"event": "rag_query", "data": {"question": "¿Cuál es el canal oficial para enviar facturas y comprobantes de compra?", "chunks_count": 3, "latency": 0.879, "cost": 9.9e-05}}
-{"event": "rag_query", "data": {"question": "En caso de robo de una laptop corporativa fuera de la casa, ¿qué plazo hay para hacer la denuncia policial?", "chunks_count": 3, "latency": 0.758, "cost": 9.4e-05}}
-{"event": "rag_query", "data": {"question": "¿El día de cumpleaños es libre o se debe trabajar media jornada?", "chunks_count": 3, "latency": 0.828, "cost": 8e-05}}
-{"event": "rag_query", "data": {"question": "¿Es obligatorio usar la VPN de Nubbix al conectarse desde redes públicas?", "chunks_count": 3, "latency": 0.699, "cost": 8.2e-05}}
-{"event": "rag_query", "data": {"question": "¿Cuál es el procedimiento para la rendición de viáticos de un viaje de trabajo?", "chunks_count": 3, "latency": 1.19, "cost": 0.000136}}
-{"event": "rag_query", "data": {"question": "¿Existe un código de vestimenta obligatorio para los días presenciales?", "chunks_count": 3, "latency": 0.855, "cost": 8.4e-05}}
-{"event": "rag_query", "data": {"question": "¿Qué aplicación de autenticación de dos factores (MFA) se debe utilizar?", "chunks_count": 3, "latency": 0.819, "cost": 0.0001}}
-{"event": "rag_query", "data": {"question": "¿Qué modelo de computadora se le entrega a un nuevo empleado en IT?", "chunks_count": 3, "latency": 0.902, "cost": 0.000103}}
+{"event": "rag_query", "data": {"question": "¿Cuántos días de vacaciones me corresponden si llevo 1 año en Nubbix?", "chunks_count": 3, "latency": 1.385, "cost": 0.000118}}
+{"event": "rag_query", "data": {"question": "¿Cuál es el monto del estipendio mensual para Home Office?", "chunks_count": 3, "latency": 0.809, "cost": 0.000103}}
+{"event": "rag_query", "data": {"question": "¿Puedo pedir reintegro de un almuerzo de $30.000 ARS?", "chunks_count": 3, "latency": 0.838, "cost": 7e-05}}
+{"event": "rag_query", "data": {"question": "¿A quién debo avisar si pierdo mi MacBook de la empresa?", "chunks_count": 3, "latency": 1.03, "cost": 0.000104}}
+{"event": "rag_query", "data": {"question": "¿Cuál es el presupuesto anual para cursos y capacitaciones?", "chunks_count": 3, "latency": 0.788, "cost": 8.7e-05}}
+{"event": "rag_query", "data": {"question": "¿Cuál es la política de la empresa respecto al cuidado de mascotas en la oficina?", "chunks_count": 3, "latency": 0.699, "cost": 8.7e-05}}
+{"event": "rag_query", "data": {"question": "¿Cuándo se realiza el pago de sueldos cada mes?", "chunks_count": 3, "latency": 1.097, "cost": 0.000114}}
+{"event": "rag_query", "data": {"question": "¿Quién ganó el último mundial de fútbol?", "chunks_count": 3, "latency": 0.683, "cost": 9.1e-05}}
+{"event": "rag_query", "data": {"question": "¿Cuántos días corresponden por licencia de paternidad o maternidad?", "chunks_count": 3, "latency": 0.854, "cost": 9.9e-05}}
+{"event": "rag_query", "data": {"question": "¿Cuántos días de estudio por examen rinde la empresa al año?", "chunks_count": 3, "latency": 0.686, "cost": 9.5e-05}}
+{"event": "rag_query", "data": {"question": "¿Cuál es el límite máximo para gastos con la tarjeta corporativa?", "chunks_count": 3, "latency": 0.602, "cost": 7e-05}}
+{"event": "rag_query", "data": {"question": "¿Cuánto tiempo tarda IT en otorgar permisos de lectura en la VPN o GitHub?", "chunks_count": 3, "latency": 1.091, "cost": 0.000109}}
+{"event": "rag_query", "data": {"question": "¿Cómo se deben justificar las ausencias por enfermedad o licencia médica?", "chunks_count": 3, "latency": 0.618, "cost": 7.3e-05}}
+{"event": "rag_query", "data": {"question": "¿Cuál es la contraseña del Wi-Fi de la oficina para invitados?", "chunks_count": 3, "latency": 1.917, "cost": 9.4e-05}}
+{"event": "rag_query", "data": {"question": "¿Cada cuántos días expiran las contraseñas de Google Workspace?", "chunks_count": 3, "latency": 0.893, "cost": 9.6e-05}}
+{"event": "rag_query", "data": {"question": "¿La empresa reembolsa la compra de sillas ergonómicas para el hogar?", "chunks_count": 3, "latency": 0.605, "cost": 9e-05}}
+{"event": "rag_query", "data": {"question": "¿Nubbix ofrece membresía o descuento en cadenas de gimnasios?", "chunks_count": 3, "latency": 0.606, "cost": 8.4e-05}}
+{"event": "rag_query", "data": {"question": "¿A qué hora abre y cierra el comedor de la sede central?", "chunks_count": 3, "latency": 0.59, "cost": 8.3e-05}}
+{"event": "rag_query", "data": {"question": "¿Cómo es el procedimiento para solicitar un anticipo de sueldo?", "chunks_count": 3, "latency": 0.769, "cost": 8.6e-05}}
+{"event": "rag_query", "data": {"question": "¿Quiénes deben aprobar una solicitud de acceso con permisos de Administrador?", "chunks_count": 3, "latency": 0.747, "cost": 0.000104}}
+{"event": "rag_query", "data": {"question": "¿Cuál es el canal oficial para enviar facturas y comprobantes de compra?", "chunks_count": 3, "latency": 0.692, "cost": 7.7e-05}}
+{"event": "rag_query", "data": {"question": "En caso de robo de una laptop corporativa fuera de la casa, ¿qué plazo hay para hacer la denuncia policial?", "chunks_count": 3, "latency": 0.681, "cost": 8.5e-05}}
+{"event": "rag_query", "data": {"question": "¿El día de cumpleaños es libre o se debe trabajar media jornada?", "chunks_count": 3, "latency": 0.674, "cost": 8.6e-05}}
+{"event": "rag_query", "data": {"question": "¿Es obligatorio usar la VPN de Nubbix al conectarse desde redes públicas?", "chunks_count": 3, "latency": 0.609, "cost": 7.4e-05}}
+{"event": "rag_query", "data": {"question": "¿Cuál es el procedimiento para la rendición de viáticos de un viaje de trabajo?", "chunks_count": 3, "latency": 0.96, "cost": 0.000109}}
+{"event": "rag_query", "data": {"question": "¿Existe un código de vestimenta obligatorio para los días presenciales?", "chunks_count": 3, "latency": 0.667, "cost": 8.8e-05}}
+{"event": "rag_query", "data": {"question": "¿Qué aplicación de autenticación de dos factores (MFA) se debe utilizar?", "chunks_count": 3, "latency": 0.748, "cost": 0.000102}}
+{"event": "rag_query", "data": {"question": "¿Qué modelo de computadora se le entrega a un nuevo empleado en IT?", "chunks_count": 3, "latency": 0.717, "cost": 9.9e-05}}
+{"event": "rag_query", "data": {"question": "¿Cuántos días de vacaciones me corresponden si llevo 1 año en Nubbix?", "chunks_count": 3, "latency": 0.935, "cost": 9.7e-05}}
+{"event": "rag_query", "data": {"question": "¿Cuál es el monto del estipendio mensual para Home Office?", "chunks_count": 3, "latency": 0.859, "cost": 9.2e-05}}
+{"event": "rag_query", "data": {"question": "¿Puedo pedir reintegro de un almuerzo de $30.000 ARS?", "chunks_count": 3, "latency": 0.795, "cost": 7.8e-05}}
+{"event": "rag_query", "data": {"question": "¿A quién debo avisar si pierdo mi MacBook de la empresa?", "chunks_count": 3, "latency": 0.836, "cost": 9.5e-05}}
+{"event": "rag_query", "data": {"question": "¿Cuál es el presupuesto anual para cursos y capacitaciones?", "chunks_count": 3, "latency": 0.81, "cost": 7.6e-05}}
+{"event": "rag_query", "data": {"question": "¿Cuál es la política de la empresa respecto al cuidado de mascotas en la oficina?", "chunks_count": 3, "latency": 0.817, "cost": 7.7e-05}}
+{"event": "rag_query", "data": {"question": "¿Cuándo se realiza el pago de sueldos cada mes?", "chunks_count": 3, "latency": 0.788, "cost": 8.8e-05}}
+{"event": "rag_query", "data": {"question": "¿Quién ganó el último mundial de fútbol?", "chunks_count": 3, "latency": 0.777, "cost": 7.3e-05}}
+{"event": "rag_query", "data": {"question": "¿Cuántos días corresponden por licencia de paternidad o maternidad?", "chunks_count": 3, "latency": 0.832, "cost": 9.1e-05}}
+{"event": "rag_query", "data": {"question": "¿Cuántos días de estudio por examen rinde la empresa al año?", "chunks_count": 3, "latency": 0.751, "cost": 8.9e-05}}
+{"event": "rag_query", "data": {"question": "¿Cuál es el límite máximo para gastos con la tarjeta corporativa?", "chunks_count": 3, "latency": 0.863, "cost": 9.6e-05}}
+{"event": "rag_query", "data": {"question": "¿Cuánto tiempo tarda IT en otorgar permisos de lectura en la VPN o GitHub?", "chunks_count": 3, "latency": 0.906, "cost": 9.5e-05}}
+{"event": "rag_query", "data": {"question": "¿Cómo se deben justificar las ausencias por enfermedad o licencia médica?", "chunks_count": 3, "latency": 0.671, "cost": 7.5e-05}}
+{"event": "rag_query", "data": {"question": "¿Cuál es la contraseña del Wi-Fi de la oficina para invitados?", "chunks_count": 3, "latency": 0.667, "cost": 7.6e-05}}
+{"event": "rag_query", "data": {"question": "¿Cada cuántos días expiran las contraseñas de Google Workspace?", "chunks_count": 3, "latency": 0.756, "cost": 8.4e-05}}
+{"event": "rag_query", "data": {"question": "¿La empresa reembolsa la compra de sillas ergonómicas para el hogar?", "chunks_count": 3, "latency": 0.668, "cost": 7.6e-05}}
+{"event": "rag_query", "data": {"question": "¿Nubbix ofrece membresía o descuento en cadenas de gimnasios?", "chunks_count": 3, "latency": 0.794, "cost": 7.7e-05}}
+{"event": "rag_query", "data": {"question": "¿A qué hora abre y cierra el comedor de la sede central?", "chunks_count": 3, "latency": 0.669, "cost": 7.6e-05}}
+{"event": "rag_query", "data": {"question": "¿Cómo es el procedimiento para solicitar un anticipo de sueldo?", "chunks_count": 3, "latency": 0.693, "cost": 7.7e-05}}
+{"event": "rag_query", "data": {"question": "¿Quiénes deben aprobar una solicitud de acceso con permisos de Administrador?", "chunks_count": 3, "latency": 0.756, "cost": 8.4e-05}}
+{"event": "rag_query", "data": {"question": "¿Cuál es el canal oficial para enviar facturas y comprobantes de compra?", "chunks_count": 3, "latency": 0.685, "cost": 7.8e-05}}
+{"event": "rag_query", "data": {"question": "En caso de robo de una laptop corporativa fuera de la casa, ¿qué plazo hay para hacer la denuncia policial?", "chunks_count": 3, "latency": 0.879, "cost": 0.000103}}
+{"event": "rag_query", "data": {"question": "¿El día de cumpleaños es libre o se debe trabajar media jornada?", "chunks_count": 3, "latency": 0.736, "cost": 7.6e-05}}
+{"event": "rag_query", "data": {"question": "¿Es obligatorio usar la VPN de Nubbix al conectarse desde redes públicas?", "chunks_count": 3, "latency": 0.712, "cost": 7.8e-05}}
+{"event": "rag_query", "data": {"question": "¿Cuál es el procedimiento para la rendición de viáticos de un viaje de trabajo?", "chunks_count": 3, "latency": 1.618, "cost": 0.000162}}
+{"event": "rag_query", "data": {"question": "¿Existe un código de vestimenta obligatorio para los días presenciales?", "chunks_count": 3, "latency": 0.714, "cost": 7.4e-05}}
+{"event": "rag_query", "data": {"question": "¿Qué aplicación de autenticación de dos factores (MFA) se debe utilizar?", "chunks_count": 3, "latency": 0.82, "cost": 8.7e-05}}
+{"event": "rag_query", "data": {"question": "¿Qué modelo de computadora se le entrega a un nuevo empleado en IT?", "chunks_count": 3, "latency": 0.917, "cost": 8.9e-05}}
