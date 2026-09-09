@@ -79,7 +79,6 @@ Contenido del `.env`:
 
 ```env
 OPENAI_API_KEY=sk-proj-...
-ANTHROPIC_API_KEY=sk-ant-... # Opcional
 EMBEDDING_MODEL=text-embedding-3-small
 CHROMA_PERSIST_DIR=./data/chroma_db
 ```
