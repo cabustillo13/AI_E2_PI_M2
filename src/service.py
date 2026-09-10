@@ -21,9 +21,9 @@ class RAGService:
                 return data.get("system_prompt", "")
         return "Responde utilizando únicamente el contexto provisto."
 
-    def answer_question(self, question: str, top_k: int = 3) -> RAGQueryResponse:
-        # Step 1: Retrieval Híbrido
-        retrieved_chunks = self.retriever.hybrid_search(question, top_k=top_k)
+    def answer_question(self, question: str, top_k: int = 3, enable_rerank: bool = False) -> RAGQueryResponse:
+        # Step 1: Retrieval Híbrido (+ re-ranking opcional con cross-encoder)
+        retrieved_chunks = self.retriever.hybrid_search(question, top_k=top_k, enable_rerank=enable_rerank)
 
         # Step 2: Formatear contexto para el LLM
         context_str = ""
@@ -60,6 +60,7 @@ class RAGService:
         self.metrics.log_event("rag_query", {
             "question": question,
             "chunks_count": len(chunks_response),
+            "enable_rerank": enable_rerank,
             "latency": response.latency_seconds,
             "cost": response.estimated_cost_usd
         })

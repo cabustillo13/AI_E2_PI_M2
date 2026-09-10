@@ -2,6 +2,7 @@ from typing import List, Dict, Any
 from rank_bm25 import BM25Okapi
 from src.vector_store import VectorStoreManager
 from src.llm_client import LLMClient
+from src.reranker import CrossEncoderReranker
 
 
 class HybridRetriever:
@@ -10,6 +11,7 @@ class HybridRetriever:
         self.collection_name = collection_name
         self.vector_store = VectorStoreManager()
         self.llm_client = LLMClient()
+        self.reranker = CrossEncoderReranker.get_instance()
         self._init_bm25()
 
     def _init_bm25(self):
@@ -33,7 +35,8 @@ class HybridRetriever:
             })
         return results
 
-    def hybrid_search(self, query: str, top_k: int = 3, rrf_k: int = 60) -> List[Dict[str, Any]]:
+    def hybrid_search(self, query: str, top_k: int = 3, rrf_k: int = 60,
+                       enable_rerank: bool = False, rerank_pool_size: int = 10) -> List[Dict[str, Any]]:
         # 1. Recuperación vectorial
         query_emb = self.llm_client.get_embeddings([query])[0]
         vec_results = self.vector_store.search_vectorial(self.collection_name, query_emb, top_k=10)
@@ -55,16 +58,24 @@ class HybridRetriever:
             rrf_scores[cid] = rrf_scores.get(cid, 0.0) + (1.0 / (rrf_k + rank + 1))
             chunk_map[cid] = item
 
-        sorted_chunks = sorted(rrf_scores.items(), key=lambda x: x[1], reverse=True)[:top_k]
+        # El pool de candidatos que se lleva al re-ranking es más grande que top_k:
+        # el cross-encoder necesita margen para poder promover un chunk que RRF
+        # dejó afuera del top-k inicial, si no habría re-ranking real.
+        pool_size = rerank_pool_size if enable_rerank else top_k
+        sorted_chunks = sorted(rrf_scores.items(), key=lambda x: x[1], reverse=True)[:pool_size]
 
-        final_results = []
+        candidates = []
         for cid, score in sorted_chunks:
             item = chunk_map[cid]
-            final_results.append({
+            candidates.append({
                 "chunk_id": cid,
                 "content": item["content"],
                 "metadata": item["metadata"],
                 "score": round(score, 4)
             })
 
-        return final_results
+        # 4. Re-ranking opcional con cross-encoder (ver src/reranker.py)
+        if enable_rerank:
+            return self.reranker.rerank(query, candidates, top_k=top_k)
+
+        return candidates[:top_k]

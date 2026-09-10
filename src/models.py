@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from typing import List, Optional
+from typing import List, Optional, Dict
 
 
 class ChunkRelated(BaseModel):
@@ -25,7 +25,21 @@ class RAGQueryResponse(BaseModel):
 
 
 class GoldenTestCase(BaseModel):
+    """
+    Caso del golden dataset de evals.
+
+    `expected_chunk_ids` y `hard_negative_chunk_ids` están indexados por
+    estrategia de chunking ("structural" / "fixed") porque cada chunker
+    trocea el corpus con límites distintos: un mismo hecho puede vivir en
+    IDs de chunk diferentes según la estrategia. Mantenerlos separados
+    permite aplicar la MISMA fórmula de precision/recall a ambas
+    estrategias (ver evals/runner.py), en vez de comparar métricas
+    calculadas con criterios distintos.
+    """
     id: str
     question: str
-    expected_chunk_ids: List[str]
     is_out_of_scope: bool = False
+    is_cross_document: bool = False
+    is_hard_negative_case: bool = False
+    expected_chunk_ids: Dict[str, List[str]] = Field(default_factory=lambda: {"structural": [], "fixed": []})
+    hard_negative_chunk_ids: Dict[str, List[str]] = Field(default_factory=lambda: {"structural": [], "fixed": []})

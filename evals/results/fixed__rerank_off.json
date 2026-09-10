@@ -1,0 +1,15 @@
+{
+  "strategy": "fixed",
+  "rerank_enabled": false,
+  "total_test_cases": 39,
+  "precision_at_k": 0.3226,
+  "recall_at_k": 0.7742,
+  "hit_rate": 0.871,
+  "avg_groundedness": 0.9872,
+  "refusal_accuracy": 1.0,
+  "cross_document_cases": 6,
+  "cross_document_recall_at_k": 0.5,
+  "cross_document_full_hit_rate": 0.1667,
+  "hard_negative_cases": 7,
+  "hard_negative_leakage_rate": 0.2857
+}
