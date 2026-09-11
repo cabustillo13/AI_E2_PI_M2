@@ -43,6 +43,7 @@ Nubbix Assist es un chatbot de respuestas sobre documentación oficial corporati
     ├── vector_store.py
     ├── hybrid_retriever.py
     ├── service.py
+    ├── reranker.py
     └── main.py
 ```
 
@@ -232,6 +233,12 @@ curl -X 'POST' \
   "estimated_cost_usd": 0.000125
 }
 ```
+
+Por otro lado, si haces esta misma pregunta con rerank habilitado vas a obtener score negativos, eso es normal.
+Los cross-encoders tipo mmarco-mMiniLMv2 devuelven logits sin acotar (la salida cruda de la última capa), no una probabilidad entre 0 y 1. No pasan por una sigmoide antes de salir de model.predict(). Un score negativo simplemente significa "el modelo considera este par pregunta-chunk poco relevante en términos relativos", positivo significa "relevante". La magnitud (–8, –3.5, +7, +10) importa para el orden, no el signo en sí.
+
+Sí haces una inspección manual de chunks vas a detectar un caso de corte deficiente en it_manual.md_struct_1 / _struct_2: la frase introductoria de una lista ("el colaborador debe:") quedó separada de los ítems que la completan por el límite de palabras de la sub-división. Esto explica un miss puntual observado en retrieval con re-ranking activado (pregunta q4 del golden dataset), donde el chunk con la respuesta real (struct_2) no entró al top-3. Queda documentado como limitación conocida del umbral max_section_words actual.
+Es una situación común que podrías abordar con una heurística de batching: `Si un bloque termina en :, forzar que se una al siguiente bloque sin importar el presupuesto de palabras (porque un dos puntos anuncia continuación)`.
 
 ---
 
