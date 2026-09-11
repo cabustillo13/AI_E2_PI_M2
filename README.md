@@ -109,31 +109,65 @@ python -m evals.runner --strategy structural
 python -m evals.runner --strategy fixed
 ```
 
+Si se desea habilitar el rerunk o hacer debugging de los resultados, adicionar los argumentos: `--rerank` y `--debug`.
+
+```bash
+# Evaluación de la estrategia estructural con rerank y debugging
+python -m evals.runner --strategy structural --rerank --debug
+
+# Evaluación de la estrategia de tamaño fijo con rerank y debugging
+python -m evals.runner --strategy fixed --rerank --debug
+```
+
 ---
 
 ## Comparación de Estrategias de Chunking
 
-Se evaluaron dos estrategias de procesamiento sobre el mismo corpus original utilizando la suite de evaluaciones (`evals/runner.py`) sobre 28 casos de prueba:
+Se evaluaron dos estrategias sobre el mismo corpus (39 preguntas del golden dataset,
+incluyendo 6 cross-documento y 7 hard negatives), con la MISMA fórmula de
+precision/recall/hit-rate/MRR para ambas (ver `evals/runner.py`):
 
-- **Fixed Size Chunking (Estrategia A)**: División por bloques fijos de 35 palabras con 8 palabras de overlap.
-- **Header Structural Chunking (Estrategia B)**: División basada en la estructura de encabezados Markdown (`#`, `##`) combinada con fragmentación por bloques de párrafos/listas.
+| Métrica                     | Structural (headers) | Fixed (35 palabras) |
+|------------------------------|:---------------------:|:--------------------:|
+| Chunks generados             | 21                    | 51                   |
+| Precision@3                  | 0.3871                | 0.3226               |
+| Recall@3                     | **0.9677**            | 0.7742               |
+| Hit rate                     | **0.9677**            | 0.871                |
+| MRR                          | **0.914**             | 0.7473               |
+| Cross-document full hit rate | **1.0**               | 0.1667               |
+| Hard-negative leakage rate   | 0.5714                | **0.2857**           |
 
-| Métrica | Fixed Size (Estrategia A) | Header Structural (Estrategia B) |
-| :--- | :---: | :---: |
-| **Total Chunks Generados** | **24** | **23** |
-| **Precision@k** | **0.7273** | 0.0909 |
-| **Recall@k** | **1.0000** | 0.2727 |
-| **Hit Rate** | **1.0000** | 0.2727 |
-| **Groundedness Score** | **1.0000** | **1.0000** |
-| **Refusal Accuracy** | **1.0000** | **1.0000** |
+**Decisión:** se adopta **chunking estructural por headers** como estrategia default.
+Recall, hit-rate, MRR y sobre todo cross-document full hit rate (1.0 vs 0.17) son
+sustancialmente mejores: los chunks de sección completa preservan el contexto necesario
+para resolver preguntas que combinan dos políticas, mientras que el chunking de tamaño
+fijo fragmenta la información a mitad de una idea con más frecuencia.
 
-### Justificación de Resultados y Decisiones
+La única métrica donde fixed gana es hard-negative leakage (0.29 vs 0.57): al ser chunks
+más chicos y granulares, hay menos superposición temática entre secciones vecinas, así
+que un distractor tiene menos chance de colarse. Es un trade-off documentado, no una
+razón para cambiar de estrategia (el costo de recall perdido es mayor que el beneficio).
 
-- **Desempeño de Retrieval**: La Estrategia Fija (Estrategia A) alcanzó un **Hit Rate = 1.0000** y **Recall@k = 1.0000** al recuperar consistentemente el contexto correcto por documento fuente. En la Estrategia Estructural (Estrategia B), la subdivisión fina por listas y párrafos atomizó el contenido, distribuyendo la información en chunks más reducidos que requieren un `top_k` mayor o re-ranking para concentrar todas las citas exactas.
+## Retrieval Avanzado: Re-ranking con Cross-Encoder (extra credit)
 
-- **Fidelidad y Rechazo Honesto**: Ambas estrategias obtuvieron un **Groundedness Score de 1.0000** y un **Refusal Accuracy de 1.0000**. Esto confirma que el prompt del sistema (`prompts/rag_v1.yaml`) restringe la generación estrictamente al contexto recuperado, evitando alucinaciones y rechazando con precisión las consultas fuera de alcance (*out-of-scope*).
+Se implementó re-ranking opcional con `cross-encoder/mmarco-mMiniLMv2-L12-H384-v1`
+(multilingüe) detrás del flag `enable_rerank`, midiendo el delta contra el pipeline sin
+rerank:
 
-- **Búsqueda Híbrida (BM25 + Vectorial)**: La integración de búsqueda léxica y vectorial mediante Reciprocal Rank Fusion (RRF) garantizó la localización de términos exactos (como canales de Slack o correos de soporte) así como coincidencias semánticas.
+| Métrica                   | Structural OFF | Structural ON | Fixed OFF | Fixed ON |
+|-----------------------------|:--------------:|:-------------:|:---------:|:--------:|
+| Recall@3                    | 0.9677         | 0.9677        | 0.7742    | 0.9032   |
+| MRR                          | 0.914          | 0.9355        | 0.7473    | 0.8602   |
+| Hard-negative leakage rate   | 0.5714         | 0.5714        | 0.2857    | 0.4286   |
+
+**Decisión:** el rerank NO entra al alcance mínimo por defecto. Con la estrategia
+recomendada (structural) el corpus ya es lo bastante chico como para que la búsqueda
+híbrida sature el hit-rate/recall; el rerank solo mueve el MRR levemente (+2.4%
+relativo) sin justificar el costo de latencia y la dependencia adicional. Con fixed sí
+mejora recall y MRR de forma notoria, pero a costa de aumentar en +50% relativo la
+contaminación por hard negatives (el pool más amplio que necesita el cross-encoder para
+poder reordenar también le da más chances al distractor de entrar en el top-k). Queda
+implementado y medido como extra credit, activable con `--rerank` / `enable_rerank=true`.
 
 ---
 

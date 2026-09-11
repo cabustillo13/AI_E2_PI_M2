@@ -5,7 +5,11 @@
   "precision_at_k": 0.3871,
   "recall_at_k": 0.9677,
   "hit_rate": 0.9677,
-  "avg_groundedness": 0.9872,
+  "mrr": 0.9355,
+  "avg_groundedness": 1.0,
+  "groundedness_score_distribution": [
+    1.0
+  ],
   "refusal_accuracy": 1.0,
   "cross_document_cases": 6,
   "cross_document_recall_at_k": 1.0,
